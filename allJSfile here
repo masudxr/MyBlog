@@ -1,0 +1,371 @@
+App.js
+-----------
+import express from "express";
+const app = express();
+const port = 3050;
+
+app.set('view engine', 'ejs');
+
+app.listen(port, () => {
+  console.log(`Example app listening on port: ${port}`)
+});
+
+app.use(express.static('public'));   //-----serving public file---////
+app.use(express.urlencoded({ extended: true }));  //----------// parsing the incoming data-------//
+
+//---------------------------------------------//
+
+//session ---///
+import session from "express-session";
+import cookieParser from "cookie-parser";
+app.set('trust proxy', 1);
+
+//----------session middleware---------//
+app.use(session({
+  secret: 'secret-key',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false }
+}));
+app.use(cookieParser());
+//session setup---///
+
+import { getHome, logIN } from './home.js';
+import { showAllcommentsData, insertCommentsData } from './comments.js';
+import { getPostRemove, insertPostData, viewPostDataWithId, viewAllPostDataWithId } from './post.js';
+import { insertUsersData, showAllUsersdata, showAllUsersDataForPost, LogOut } from './users.js';
+
+
+
+
+app.get('/home', getHome);
+
+app.post('/signin',logIN );
+
+
+app.get('/signin', (req, res) => {
+  res.render('signin', { title: 'Signing Here!' });
+});
+
+app.get('/logout', LogOut);
+
+app.get('/:id/remove', getPostRemove);
+
+app.get('/remove', (req, res) => {
+  res.render('remove', { title: 'Remove blogs' });
+});
+
+app.get('/createBlogs', (req, res) => {
+  res.render('createBlogs', { title: 'create Blogs' });
+});
+
+app.post('/create', insertPostData);
+
+app.get('/create', (req, res) => {
+  res.render('create', { title: 'Create blogs' });
+});
+
+app.get('/blogs/:id', viewPostDataWithId);
+
+app.get('/users/:id', viewAllPostDataWithId);
+
+app.post('/users', insertUsersData);
+
+app.get('/create/users', showAllUsersdata);
+app.get('/users', showAllUsersdata);
+
+app.get('/create/blogs', showAllUsersDataForPost);
+
+app.post('/comments', insertCommentsData);
+
+app.get('/create/comments', showAllcommentsData);
+
+app.get('/comments', showAllcommentsData);
+
+
+// 404 page
+app.use((req, res) => {
+  // console.log(path.resolve())
+  res.status(404).render('404', { title: '404' });
+});
+
+
+
+// db.get('SELECT users_id FROM Posts INNER JOIN Users ON Posts.users_id = Users.id',(err, rows) =>{
+//   console.log(err)
+// });
+
+
+-------------------------------------------------------users.js-------------------------------------------------------------------------------
+import {db} from './database.js';
+
+export function getAllUsers() {
+  return new Promise((resolve, reject) => {
+    db.all('SELECT * from Users', (err, users) => {
+      if (err) reject(err);
+      resolve(users);
+    });
+  });
+}
+
+export function showAllUsersdata(req, res) {
+  let logedIn = req.session.userid;
+
+    db.all('SELECT * from Users', (err, rows) =>{
+      res.render('createUsers', { title: 'Create Users', rows, logedIn});
+    });
+}
+
+
+export function showAllUsersDataForPost(req, res) {
+  let logedIn = req.session.userid;
+let Txt = 'Advance Thanks For Creating a Post In Our Site !';
+
+  let Arr=[];
+  db.all('SELECT * from Users', (err, rows) =>{
+    res.render('createBlogs', { title: 'Create New blogs', rows, logedIn, Txt});
+  });
+}
+
+
+
+export function insertUsersData(req,res){
+
+    console.log('Users full post: ', req.body);
+  
+    db.run(`INSERT INTO Users (id, name, email, password) VALUES ($id, $name, $email, $password)`, {
+      $id: req.body.id, 
+      $name: req.body.name, 
+      $email: req.body.email, 
+      $password: req.body.password,
+  
+    }, (err)=>{
+      console.log('Users Error', err);
+      res.redirect ('/create/users');
+    });
+};
+
+
+// logout Function
+export function LogOut(req, res, next) {
+  req.session.user = null
+  req.session.save(function (err) {
+    if (err) next(err)
+    req.session.regenerate(function (err) {
+      if (err) next(err)
+      res.redirect('/signin')
+    });
+  });
+};
+
+
+-------------------------------------------------------post.js-------------------------------------------------------------------------------
+import { db } from './database.js';
+//---------Sqlite DB------//
+import { showAllcommentsData } from "./comments.js";
+
+
+export function getAllPosts() {
+  return new Promise((resolve, reject) => {
+    db.all('SELECT * from Posts order by date desc', (err, posts) => {
+      if (err) reject(err);
+      resolve(posts);
+    });
+  });
+}
+
+export async function viewPostDataWithId(req, res) {
+  let logedIn = req.session.userid;
+  let BlogsId = Number(req.params.id);
+
+  const Comment = await showAllcommentsData();
+
+  // console.log('BlogsId:',BlogsId);
+  db.get('SELECT * from Posts WHERE id = $id', { $id: BlogsId }, (err, row) => {
+    res.render('blogs', { title: 'Post with Id', row, logedIn, Comment});
+  });
+};
+
+
+
+export function insertPostData(req, res) {
+  let logedIn = req.session.userid;
+  // console.log('    fun     ',logedIn);
+  let Txt = 'You Just Missed Proper Entry. Plz fill up Title and Body Both Carefully and Try again !';
+
+  console.log('req.body.title:      ',req.body.title);
+  console.log('req.body.body:      ',req.body.body);
+  db.all('SELECT * from Users', (err, rows) =>{
+
+  if (req.body.title && req.body.body){
+
+    db.run(`INSERT INTO Posts (users_id, title, body, date) VALUES ($users, $title, $body, $date)`, {
+      $users: logedIn,
+      $title: req.body.title,
+      $body: req.body.body,
+      $date: new Date().toISOString(),
+  
+    }, (err) => {
+      console.log(err);
+      res.redirect('/home');
+    });
+  } else {
+    res.render('createBlogs', { title: 'Plz fill up properly', logedIn, rows, Txt});
+  }
+  });
+};
+
+
+
+export function getPostRemove(req, res) {
+  let ReqId = Number(req.params.id);
+  db.run("DELETE FROM Posts WHERE id=$id", { $id: ReqId });
+  res.redirect('/home');
+};
+
+//--------------//------------//
+
+export async function viewAllPostDataWithId(req, res) {
+  let logedIn = req.session.userid;
+
+  let UsersId = Number(req.params.id);
+  // console.log('UsersId:',UsersId);
+  let Arr = [];
+
+  const posts = await getAllPosts();
+  
+    for (let j = 0; j < posts.length; j++) {
+      if (UsersId == posts[j].users_id) {
+        posts['authorPost'] = posts[j].body;
+        Arr.push(posts.authorPost);
+      };
+    };
+    res.render('users', { title: 'Post with UserId', Arr, logedIn});
+
+};
+
+
+
+//-----INNER JOIN-------//
+// db.get('SELECT users_id FROM Posts INNER JOIN Users ON Posts.users_id = Users.id',(err, rows) =>{
+//   console.log(err)
+//   console.log(rows);
+// });
+
+
+-------------------------------------------------------home.js-------------------------------------------------------------------------------
+
+import { db } from './database.js';
+import { getAllPosts } from "./post.js";
+import { getAllUsers } from "./users.js";
+
+export async function getHome(req, res) {
+  console.log(req.session);
+  let logedIn = req.session.userid;
+
+  let Arr = [];
+  const posts = await getAllPosts();
+  const users = await getAllUsers();
+
+  for (let i = 0; i < posts.length; i++) {
+    for (let j = 0; j < users.length; j++) {
+      if (posts[i].users_id == users[j].id) {
+        posts['AuthorName'] = users[j].name;
+        Arr.push(posts.AuthorName);
+      };
+    };
+  };
+  res.render('home', { title: 'Home Page', posts, logedIn, Arr });
+};
+
+
+
+export function logIN(req, res, next) {
+  const getId = req.body;
+
+  db.get('SELECT * from Users WHERE name = $name AND password = $password', { $name: getId.name, $password: getId.password }, (err, loginId) => {
+
+    req.session.userid = loginId.id;
+    console.log(req.session);
+
+    if (loginId) {
+      res.redirect('/home');
+    }
+    else {
+      res.render('signin', { title: 'Failed!' });
+    };
+  });
+};
+
+-------------------------------------------------------comment.js-------------------------------------------------------------------------------
+import {db} from './database.js';
+
+export function showAllcommentsData() {
+  return new Promise((resolve, reject) => {
+    db.all('SELECT * from comments', (err, Comment) =>{
+      if (err) reject(err);
+      resolve(Comment);
+      // res.render('blogs', { title: 'Create comments', Comment, logedIn});
+    });
+  });
+};
+
+
+export function insertCommentsData(req,res){
+  let logedIn = req.session.userid;
+
+    console.log('full post: ', req.body);
+    db.run(`INSERT INTO comments (post_id, users_id, comments_body, date) VALUES ($post_id, $users_id, $comments_body, $date)`, {
+      $post_id: req.body.post_id, 
+      $users_id: logedIn,
+      $comments_body: req.body.body, 
+      $date: new Date(),
+  
+    }, (err)=>{
+      console.log(err);
+      res.redirect ('/home');
+    });
+};
+
+
+-------------------------------------------------------database.js-------------------------------------------------------------------------------
+import sqlite3  from "sqlite3";
+sqlite3.verbose();
+
+let db = new sqlite3.Database('./db/Myblog.db', (err) => {
+    if (err) {
+      return console.error(err.message);
+    }
+    console.log('Connected to the SQlite database.');
+  });
+
+export {db};
+
+-------------------------------------------------------package.json-------------------------------------------------------------------------------
+{
+  "name": "myblog",
+  "version": "1.0.0",
+  "description": "MyBlog",
+  "start": "node app.js",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Masud",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "sqlite3": "^5.1.2"
+  }
+}
+
+
+
+
+
+
+

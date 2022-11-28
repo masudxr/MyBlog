@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> My First WS ! <%= title %></title>
+    <link rel="stylesheet" href="/main.css" type="text/css">
+</head>
+<body>
+    <div class="headersection" template>
+        <a href="/home"><h2>بسم الله الرحمن الرحيم</h2></a>
+    </div>
+    
+<%if (logedIn){%>
+    <ul class="nav-list" template>
+        <li><a href="/home"><h2>Home</h2></a></li>
+        <li><a href='/create/blogs' ><h2>New Blog</h2></a></li>
+        <li><a href='/logout'><h2>Logout</h2></a></li>
+    </ul>
+    <% } else {%>
+        <ul class="nav-list" template>
+            <li><a href="/home"><h2>Home</h2></a></li>
+            <li><a href='/create/users' ><h2>Registration</h2></a></li>
+            <li><a href='/signin'><h2>User Login</h2></a></li>
+
+        </ul>
+        <% } %>
+
+

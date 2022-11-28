@@ -1,0 +1,43 @@
+<%- include('./header.ejs') %>
+
+<div class="users">
+    <h2> Create new User </h2>
+    <form action="/users" method="post">
+        
+            <label for="id">User ID:</label>
+            <br>
+            <input type="id" id="id" placeholder="Put Unique User ID" name="id" required>
+            <br><br>
+      
+            <label for="name">User Name:</label>
+            <br>
+            <input type="text" id="name" placeholder="User Name" name="name" required>
+            <br><br>
+        
+            <label for="email">User Email:</label>
+            <br>
+            <input type="text" id="email" placeholder="User Email" name="email" required>
+            <br><br>
+        
+            <label for="password">User Password:</label>
+            <br>
+            <input type="text" id="email" placeholder="User Password" name="password" required>
+            <br><br>
+
+            <button> Create new Users</button>
+</div>
+        <div class="form-info">
+            <p> Here All Users ID: </p>
+            <% if (rows.length >= 0){ %>
+                <% for (let i=0; i< rows.length; i++) {%>
+                <div>
+                    <p> <%= rows[i].id %> : <%= rows[i].name %></p> 
+                </div>
+                <% } %>
+            <% } %> 
+         </div>
+    </form>
+
+<div class="footer">
+    <%- include('./footer.ejs') %>
+</div>

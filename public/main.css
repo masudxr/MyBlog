@@ -1,0 +1,306 @@
+*{
+    margin: 0px;
+    padding: 5px;
+}
+body{
+    background: rgb(175, 170, 170);
+    margin:20px auto ;
+    max-width: 1100px;
+    padding: 0 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    border-style:solid;
+    border-radius: 4px;
+}
+.template {
+    width: 1100px;
+    margin:0 auto;
+    color: #fff;
+}
+.headersection{
+    height: 85px;
+    background: rgb(238, 224, 224);
+    color:lightblue;
+}
+.headersection h2{
+    color: rgb(5, 0, 0);
+    font-size: 40px;
+    padding-top: 17px;
+    text-align: center;
+    text-shadow: 2px 2px;
+
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  
+  li {
+    float: left;
+  }
+  
+  li a {
+    display: block;
+    color: rgb(12, 12, 12);
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+.nav-list{
+    width: 100%;
+    height: 100%;
+    background: rgb(95, 40, 40);
+
+}
+
+p,h1,h3,a,ul{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    color: rgb(10, 8, 8);
+}
+/* users form */
+div.main{
+    width: 500px;
+    margin: 100px auto 0px auto;
+}
+h2{
+    font-family: sans-serif;
+}
+div.users{
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    font-size: 18px;
+    background-color: aqua;
+
+}
+.bloghere{
+    margin: 2px;
+    border-style: dotted;
+    padding-left: 40%;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+.perpost{
+    border-style: dotted;
+    margin: 2px;
+}
+.perpost h4{
+    color: rgb(61, 177, 216);
+    padding-left: 9px;
+}
+.perpost button{
+    color: rgb(235, 16, 16);
+    padding-top: 3px;
+    padding-left: 6px;
+    padding-bottom: 6px;
+    padding-right: 3px;
+    margin: 5px;
+}
+.databody{
+    border-style: double;
+}
+.databody h2{
+    font-family: Arial;
+    font-size: 25px;
+    text-transform: uppercase;
+    color: cadetblue;
+    margin-bottom: 5px;
+    text-decoration: underline;
+    padding-left: 5px;
+}
+.databody p{
+    font-family: Arial;
+    font-size: 17px;
+    font-style: normal;
+    padding-left: 10px;
+    padding-bottom: 6px;
+
+}
+.databody h4{
+    font-family: Arial;
+    font-size: 19px;
+    font-weight: bold;
+    padding-left: 5px;
+    color: black;
+}
+.footer{
+    /* border-style: dotted; */
+    margin-top: 2px;
+    padding-left: 40%;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    text-transform: uppercase;
+}
+/* sign in style */
+/* body {
+    display: flex;
+    justify-content: center;
+} */
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-field {
+    position: relative;
+    margin-top: 2rem;
+}
+
+.input-field input {
+    padding: 0.8rem;
+}
+
+form .input-field:first-child {
+    margin-bottom: 1.5rem;
+}
+
+form input[type="submit"] {
+    background: linear-gradient(to left, #4776E6, #8e54e9);
+    color: white;
+    border-radius: 4px;
+    margin-top: 2rem;
+    padding: 0.4rem;
+}
+/* blog page design */
+.post{
+    border-style: double;
+    margin: 10px;
+    padding: 10px;
+}
+.post h2{
+    text-align: center;
+    font-size: large;
+    text-transform: uppercase;
+}
+
+.Create-Users-Comments{
+    border-style: double;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
+}
+.Create-Users-Comments h2{
+    text-align: center;
+    font-size: large;
+    text-transform: uppercase;
+}
+.Create-Users-Comments label{
+    font-size: large;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.Create-Users-Comments textarea, input{
+    width: 500px;
+    height: 30px;
+}
+.Create-Users-Comments textarea{
+    height: 50px;
+}
+.b{
+    margin: 10px;
+    padding: 10px;
+}
+
+.footer{
+    /* border-style: dotted; */
+    margin-top: 2px;
+    padding-left: 40%;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    text-transform: uppercase;
+}
+/* reate Blog design */
+.blogss{
+    border-style: double;
+    padding: 10px;
+    margin: 2px;
+}
+.blogss label{
+    font-size: large;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.blogss h2{
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: underline;
+}
+.form-info{
+    border-style: double;
+    padding: 10px;
+    margin: 2px;
+}
+.blogss textarea, input{
+    width: 500px;
+    height: 30px;
+}
+.blogss textarea{
+    height: 60px;
+}
+.footer{
+/* border-style: dotted; */
+margin-top: 2px;
+padding-left: 40%;
+padding-top: 7px;
+padding-bottom: 7px;
+text-transform: uppercase;
+}
+.usersbody{
+    /* display: flex; */
+   
+    /* flex-wrap: wrap; */
+    /* justify-content: space-between; */
+    /* align-content: flex-start; */
+    /* align-items: flex-start; */
+    border-style: double;
+}
+.usersbody p{
+    border-style: double;
+    max-width: 100%;
+    /* height: 60px; */
+    padding: 1px;
+    margin: 3px;
+    
+}
+.usersbody2 h2{
+    padding-left: 40%;
+}
+.users{
+    margin: 10px;
+    border-style:solid;
+    border-radius: 4px;
+    padding: 10px;
+}
+.users h2{
+    text-align: center;
+    font-size: large;
+    text-transform: uppercase;
+}
+.users label{
+    font-size: large;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.users input{
+    width: 500px;
+    height: 30px;
+}
+
+.form-info{
+    margin: 10px;
+    border-style:solid;
+    border-radius: 4px;
+    padding-left: 10px;
+}
+.b{
+    padding: 10px;
+}
+
+
+
+

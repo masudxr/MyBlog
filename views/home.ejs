@@ -1,0 +1,27 @@
+<%- include('./header.ejs') %>
+
+<div class="databody" template>
+<% if (posts.length >= 0){ %>
+    <% for (let i=0; i< posts.length; i++) {%>
+        <div class="perpost">
+            <br>
+            <a href=/blogs/<%= posts[i].id %>> <h2><%= posts[i].title %></h2> </a>
+            <p> <%= posts[i].body %></p>
+            <!-- <br> -->
+            <p> Post Date: <%= new Date(posts[i].date).getDate() %>/<%= new Date(posts[i].date).getMonth() %>/<%= new Date(posts[i].date).getFullYear() %></p>
+            <a href=/users/<%= posts[i].users_id %> ><h4> Author Name: <%= Arr[i] %></h4></a>
+            <br>
+            <a href=/<%= posts[i].id %>/remove ><button>Delete Blog</button></a>
+        </div>
+
+    <% } %>
+<% } else {%> 
+    <div class="bloghere" template>
+        <p> Put Your blog here....</p>
+    </div>
+<% } %>
+</div>
+
+<%- include('./footer.ejs') %>
+
+    

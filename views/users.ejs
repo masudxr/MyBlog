@@ -1,0 +1,19 @@
+<%- include('./header.ejs') %>
+
+<div class="usersbody2" template>
+    <h2>All Posts Here</h2>
+</div>
+<div class="usersbody" template>
+
+    <% if (Arr.length >= 0){ %>
+        <% for (let i=0; i< Arr.length; i++) {%>
+            
+            <p> <%= Arr[i] %></p>
+        <% } %>
+    <% } %> 
+</div>
+
+
+<%- include('./footer.ejs') %>
+
+

@@ -1,0 +1,49 @@
+<%- include('./header.ejs') %>
+
+<div class="post">
+    <h2>
+        Here Full Post
+    </h2>
+    <p> <%= row.body %></p>
+<br>
+<!-- Attached comments code here -->
+<p>All Comments Here with related this post</p>
+<br>
+
+<% if (Comment.length >= 0){ %>
+    <% for (let i=0; i< Comment.length; i++) {%>
+        <% if (row.id ==Comment[i].post_id) { %>
+            <p> User ID: <%= Comment[i].users_id %> </p>
+            <p> Comments:<%= Comment[i].comments_body %> </p> 
+        <% } %>
+    <% } %>
+<% } %> 
+</div>
+
+
+<!-- Attached comments code here and using js-->
+
+<% if (!logedIn) {%>
+<div class="Create-Users-Comments">
+    <h2> Your Comments Here Post ID: <%= row.id %></h2>
+    <p>Before You Put Your Comments Plz Login My Site. If You Not logedIn Before Plz Go To Registration.Thanks.</p>
+        <button><a href="/signin">LogIn Here</a></button> 
+</div>
+<% } else {%>
+<div class="Create-Users-Comments">
+    <h2> Your Comments Here Post ID: <%= row.id %></h2>
+    <form action="/comments" method="post">
+            <label for="id">Post ID:</label>
+            <br>
+            <input type="text" id="id" placeholder="Post ID" name="post_id" required>
+            <br><br>
+            <label for="body">Comments:</label>
+            <br>
+            <textarea id="body" placeholder="Type Your Comments Here!! " required name="body"></textarea>
+            <br><br>
+        <button> Post Comments </button>
+    </form>
+</div>  
+<% } %>
+
+<%- include('./footer.ejs') %>

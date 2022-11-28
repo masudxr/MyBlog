@@ -1,0 +1,60 @@
+<%- include('./header.ejs') %>
+
+<%if (!logedIn){%>
+<div class="blogss"  template>
+    <!-- <a href="/home">Home Page</a> -->
+    <h2> Create new Blog Post </h2>
+    <form action="/create" method="post">
+            <br>
+            <label for="id">User ID:</label>
+            <br>
+            <input type="id" id="id" placeholder="User ID" name="id" required>
+            <br> <br>
+       
+            <label for="title">Title:</label>
+            <br>
+            <input type="text" id="title" placeholder="Title && Id" name="title" required>
+            <br><br>  
+       
+            <label for="body">Body:</label>
+            <br>
+            <textarea id="body" placeholder="Type Your Blog Here!! " name="body"></textarea>
+            <br> <br>
+        
+        <button> Create New Blog</button>
+        </div>
+<% } else {%>
+    <div class="blogss"  template>
+        <!-- <a href="/home">Home Page</a> -->
+        <h2> Create new Blog Post </h2>
+        <%= Txt %>
+        <form action="/create" method="post">
+                <br>
+                <label for="title">Title:</label>
+                <br>
+                <input type="text" id="title" placeholder="Title && Id" name="title">
+                <br><br>  
+           
+                <label for="body">Body:</label>
+                <br>
+                <textarea id="body" placeholder="Type Your Blog Here!! " required name="body"></textarea>
+                <br> <br>
+            
+            <button> Create New Blog</button>
+            </div>
+
+<% } %>
+
+        <div class="form-info">
+            <p> Here All Users ID: </p>
+            <% if (rows.length >= 0){ %>
+                <% for (let i=0; i< rows.length; i++) {%>
+                <div>
+                    <p> <%= rows[i].id %> :<%= rows[i].name %> </p> 
+                </div>
+                <% } %>
+            <% } %> 
+        </div>
+    </form>
+
+<%- include('./footer.ejs') %>

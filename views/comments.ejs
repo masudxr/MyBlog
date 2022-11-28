@@ -1,0 +1,14 @@
+<%- include('./header.ejs') %>
+
+
+    <% if (rows.length >= 0){ %>
+        <% for (let i=0; i< rows.length; i++) {%>
+        <div>
+            <p>Users Comments: <%= rows[i].comments_body %> __Post__ID:<%= rows[i].post_id %> </p> 
+        </div>
+        <% } %>
+    <% } %> 
+
+
+<%- include('./footer.ejs') %>
+
